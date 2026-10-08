@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>FactoryFlow | Junction A</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="./index.html" aria-label="FactoryFlow overview"><span class="brand-mark">F</span><span>Factory<span class="brand-accent">Flow</span><small>TRAFFIC CONTROL</small></span></a>
+      <div class="nav-label">WORKSPACE</div>
+      <a class="nav-link active" href="#overview"><span aria-hidden="true">◈</span> Live Overview</a>
+      <a class="nav-link" href="#queues"><span aria-hidden="true">▥</span> Vehicle Queues</a>
+      <a class="nav-link" href="#simulator"><span aria-hidden="true">⊕</span> Vehicle Simulator</a>
+      <a class="nav-link" href="#controller"><span aria-hidden="true">⚙</span> Traffic Controller</a>
+      <a class="nav-link" href="#activity"><span aria-hidden="true">☷</span> Event History</a>
+      <div class="sidebar-bottom"><div class="sidebar-caption">SYSTEM CONNECTIVITY</div><div class="connection"><span id="connection-dot" class="status-dot unknown"></span><span id="connection-text">Connecting…</span></div><small>Interactive traffic simulator · Step 6B.2</small></div>
+    </aside>
+    <main class="main" id="overview">
+      <header class="topbar"><div class="breadcrumbs">Operations <span>/</span> Junction A <span>/</span> Overview</div><div class="top-actions"><span class="live-chip"><span class="live-pulse"></span> LIVE MONITORING</span><span class="clock" id="last-updated">Not updated</span></div></header>
+      <div class="content">
+        <div class="page-heading"><div><div class="eyebrow">FACTORY TRAFFIC MANAGEMENT</div><h1>Junction A <span>Overview</span></h1><p>Real-time intersection state, controller health and vehicle activity.</p></div><button id="refresh-button" class="button secondary" type="button">↻ Refresh now</button></div>
+        <div id="error-banner" class="error-banner hidden" role="alert"></div>
+        <section class="stats" aria-label="Traffic summary">
+          <div class="stat"><div class="stat-label">CONTROLLER HEALTH</div><div id="controller-status" class="stat-value">—</div><div class="stat-sub">Reported controller state</div></div>
+          <div class="stat"><div class="stat-label">OPERATING MODE</div><div id="operating-mode" class="stat-value">—</div><div class="stat-sub">Automatic / manual / emergency</div></div>
+          <div class="stat"><div class="stat-label">CURRENT PHASE</div><div id="current-phase" class="stat-value compact">—</div><div id="transition-stage" class="stat-sub">Awaiting state</div></div>
+          <div class="stat"><div class="stat-label">VEHICLES WAITING</div><div id="total-vehicles" class="stat-value">—</div><div id="emergency-indicator" class="stat-sub">Emergency: —</div></div>
+        </section>
+        <div class="dashboard-grid">
+          <section class="panel intersection-panel" aria-labelledby="intersection-title"><div class="panel-top"><div><h2 id="intersection-title">Live Intersection</h2><p>Confirmed controller signal colors</p></div><span class="panel-tag">JUNCTION A</span></div>
+            <div class="intersection-area"><div class="intersection" aria-label="Junction A traffic signal visualization">
+              <div class="road road-vertical"></div><div class="road road-horizontal"></div><div class="intersection-core"><span>JUNCTION<br><strong>A</strong></span></div>
+              <div class="signal north"><span class="direction-name">NORTH</span><div class="signal-box" data-direction="NORTH"><span class="lamp red"></span><span class="lamp yellow"></span><span class="lamp green"></span></div><span class="signal-state" id="signal-north">UNKNOWN</span></div>
+              <div class="signal south"><span class="direction-name">SOUTH</span><div class="signal-box" data-direction="SOUTH"><span class="lamp red"></span><span class="lamp yellow"></span><span class="lamp green"></span></div><span class="signal-state" id="signal-south">UNKNOWN</span></div>
+              <div class="signal west"><span class="direction-name">WEST</span><div class="signal-box" data-direction="WEST"><span class="lamp red"></span><span class="lamp yellow"></span><span class="lamp green"></span></div><span class="signal-state" id="signal-west">UNKNOWN</span></div>
+              <div class="signal east"><span class="direction-name">EAST</span><div class="signal-box" data-direction="EAST"><span class="lamp red"></span><span class="lamp yellow"></span><span class="lamp green"></span></div><span class="signal-state" id="signal-east">UNKNOWN</span></div>
+            </div></div>
+            <div class="legend"><span><i class="legend-dot red"></i> Stop</span><span><i class="legend-dot yellow"></i> Transition</span><span><i class="legend-dot green"></i> Go</span><span><i class="legend-dot unknown"></i> Unconfirmed</span></div>
+          </section>
+          <section class="panel queues-panel" id="queues" aria-labelledby="queues-title"><div class="panel-top"><div><h2 id="queues-title">Vehicle Queues</h2><p>Waiting vehicles by entry direction</p></div><span class="panel-tag">LIVE COUNT</span></div><div class="queues" id="queue-list"><div class="queue-placeholder">Loading queue data…</div></div><div class="queue-footer"><span>Total vehicles in queue</span><strong id="queue-total">—</strong></div></section>
+        </div>
+        <section class="panel simulator-panel" id="simulator" aria-labelledby="sim-title">
+          <div class="panel-top">
+            <div><h2 id="sim-title">Vehicle Sensor Simulator</h2><p>Submit real arrival and clearance events to the FastAPI backend</p></div>
+            <span class="panel-tag">REST SIMULATOR</span>
+          </div>
+          <form id="vehicle-form" class="simulator-form">
+            <div class="form-field"><label for="sim-action">Event</label><select id="sim-action" name="action" required><option value="VEHICLE_ARRIVED">Vehicle Arrived</option><option value="VEHICLE_CLEARED">Vehicle Cleared</option></select></div>
+            <div class="form-field"><label for="sim-id">Vehicle ID</label><input id="sim-id" name="vehicle_id" maxlength="80" placeholder="e.g. TRUCK-102" autocomplete="off" required></div>
+            <div class="form-field"><label for="sim-direction">Direction</label><select id="sim-direction" required><option>NORTH</option><option>SOUTH</option><option>EAST</option><option>WEST</option></select></div>
+            <div class="form-field"><label for="sim-type">Vehicle type</label><select id="sim-type" required><option value="EMPLOYEE_VEHICLE">Employee vehicle</option><option value="FORKLIFT">Forklift</option><option value="TRUCK">Truck</option><option value="EMERGENCY">Emergency</option></select></div>
+            <div class="form-field"><label for="sim-sequence">Sequence no.</label><input id="sim-sequence" type="number" min="1" max="1000000" step="1" value="1" required></div>
+            <div class="form-field sim-submit"><button class="button" type="submit" id="sim-submit">Submit sensor event</button></div>
+          </form>
+          <p class="sim-help">Arrival: use a new vehicle ID and sequence 1. Clearance: reuse its exact vehicle ID and direction with a higher sequence (normally 2). Each submission gets a unique event ID. This does not control traffic lights.</p>
+          <div id="sim-result" class="sim-result hidden" role="status" aria-live="polite"></div>
+        </section>
+
+        <section class="panel controller-panel" id="controller" aria-labelledby="controller-title">
+          <div class="panel-top">
+            <div><h2 id="controller-title">Traffic Controller Simulator</h2><p>Commands go to FastAPI; only acknowledged states appear in the intersection.</p></div>
+            <span class="panel-tag">REST CONTROL</span>
+          </div>
+          <div class="control-summary" aria-live="polite">
+            <div><span>Current stage</span><strong id="control-stage">—</strong></div>
+            <div><span>Target phase</span><strong id="control-target">—</strong></div>
+            <div><span>Pending command</span><strong id="control-pending">None</strong></div>
+          </div>
+          <div class="control-actions">
+            <div class="control-group">
+              <h3>Traffic execution</h3>
+              <p>Advance one server-side traffic-control step. Timing holds still apply.</p>
+              <button class="button primary" id="control-tick" type="button">▶ Execute tick</button>
+            </div>
+            <div class="control-group">
+              <h3>Controller acknowledgment</h3>
+              <p>Simulate the physical controller response for the last pending command.</p>
+              <div class="command-preview" id="control-command-preview">No command is pending.</div>
+              <div class="button-row">
+                <button class="button primary" id="control-ack" type="button" disabled>✓ ACK requested state</button>
+                <button class="button danger" id="control-nack" type="button" disabled>✕ NACK</button>
+              </div>
+            </div>
+            <div class="control-group">
+              <h3>Manual control</h3>
+              <p>Manual requests follow backend interlocking; emergency priority takes precedence.</p>
+              <label class="control-label" for="control-direction">Requested direction</label>
+              <select id="control-direction" class="control-select"><option>NORTH</option><option>SOUTH</option><option>EAST</option><option>WEST</option></select>
+              <div class="button-row">
+                <button class="button" id="control-manual" type="button">Request manual GREEN</button>
+                <button class="button" id="control-auto" type="button">Return to automatic</button>
+              </div>
+            </div>
+            <div class="control-group">
+              <h3>Recovery simulator</h3>
+              <p>Use only when all signals are confirmed RED in the simulator, and devices are healthy. Never use this for physical hardware.</p>
+              <label class="control-confirm"><input type="checkbox" id="control-confirm-red"> I confirm simulated ALL_RED</label>
+              <button class="button" id="control-reconcile" type="button" disabled>Reconcile ALL_RED</button>
+            </div>
+          </div>
+          <div id="control-result" class="sim-result hidden" role="status" aria-live="polite"></div>
+        </section>
+        <section class="panel activity-panel" id="activity" aria-labelledby="activity-title"><div class="panel-top"><div><h2 id="activity-title">Recent Activity</h2><p>Latest recorded junction events and controller actions</p></div><span class="panel-tag">AUDIT LOG</span></div><div class="activity-list" id="activity-list"><div class="activity-empty">Loading events…</div></div></section>
+        <footer class="footer"><span>FactoryFlow · Factory Traffic Management System</span><span>Operational simulator · Not physical traffic hardware</span></footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

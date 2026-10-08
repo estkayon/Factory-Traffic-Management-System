@@ -1,0 +1,979 @@
+/* FactoryFlow Dashboard | Step 6B.1 */
+/* Formatted for readability. Original selector order and values preserved. */
+
+
+/* =====================================================
+   01. Theme variables
+   ===================================================== */
+:root {
+  color-scheme: dark;
+  --bg: #090e19;
+  --sidebar: #0e1626;
+  --panel: #101a2a;
+  --panel-border: #263248;
+  --text: #eaf2fb;
+  --muted: #8a9aaf;
+  --accent: #5eaeff;
+  --green: #27d4a1;
+  --red: #fd697e;
+  --yellow: #ffcd66;
+}
+
+
+/* =====================================================
+   02. Global reset
+   ===================================================== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font: 14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+
+/* =====================================================
+   03. Application layout
+   ===================================================== */
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+
+/* =====================================================
+   04. Sidebar and navigation
+   ===================================================== */
+.sidebar {
+  width: 244px;
+  flex: 0 0 244px;
+  background: var(--sidebar);
+  border-right: 1px solid var(--panel-border);
+  padding: 28px 17px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 19px;
+  letter-spacing: -.8px;
+  font-weight: 750;
+  padding: 0 8px 54px;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg,#6b8dff,#20caaa);
+  color: white;
+  font-size: 25px;
+  border-radius: 12px;
+  height: 39px;
+  width: 39px;
+}
+
+.brand-accent {
+  color: #69b9ff;
+}
+
+.brand small {
+  display: block;
+  font-size: 9px;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-top: -1px;
+}
+
+.nav-label,.sidebar-caption {
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  color: #6f829d;
+  font-weight: 800;
+  margin: 0 14px 14px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 15px;
+  border-radius: 9px;
+  margin: 3px 0;
+  color: #99a8bd;
+  font-weight: 600;
+}
+
+.nav-link span {
+  font-size: 18px;
+}
+
+.nav-link:hover,.nav-link.active {
+  color: #e5f3ff;
+  background: #1d3049;
+}
+
+.nav-link.active {
+  box-shadow: inset 3px 0 #6daeff;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 22px 9px 0;
+  border-top: 1px solid var(--panel-border);
+}
+
+.sidebar-bottom .sidebar-caption {
+  margin: 0 0 12px;
+}
+
+.sidebar-bottom small {
+  display: block;
+  margin-top: 12px;
+  color: #6c8098;
+  font-size: 11px;
+}
+
+.connection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.status-dot,.live-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6b7c91;
+  display: inline-block;
+}
+
+.status-dot.online,.live-pulse {
+  background: var(--green);
+  box-shadow: 0 0 13px #27d4a180;
+}
+
+.status-dot.offline {
+  background: var(--red);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+
+/* =====================================================
+   06. Top navigation
+   ===================================================== */
+.topbar {
+  height: 74px;
+  border-bottom: 1px solid var(--panel-border);
+  padding: 0 38px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.breadcrumbs {
+  color: #a0b2c8;
+}
+
+.breadcrumbs span {
+  color: #50647e;
+  padding: 0 9px;
+}
+
+.top-actions {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+.live-chip {
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 800;
+  color: #8ce9ca;
+  background: #103b37;
+  padding: 8px 11px;
+  border-radius: 7px;
+  white-space: nowrap;
+}
+
+.live-pulse {
+  margin-right: 5px;
+}
+
+.clock {
+  color: #7890ac;
+  font-size: 12px;
+}
+
+.content {
+  max-width: 1500px;
+  margin: auto;
+  padding: 33px 38px;
+}
+
+
+/* =====================================================
+   07. Page heading
+   ===================================================== */
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 27px;
+}
+
+.eyebrow {
+  letter-spacing: 1.7px;
+  color: #76b6ff;
+  font-weight: 800;
+  font-size: 10px;
+}
+
+h1 {
+  font-size: 32px;
+  letter-spacing: -1.2px;
+  margin: 6px 0;
+}
+
+h1 span {
+  font-weight: 400;
+  color: #abbace;
+}
+
+.page-heading p,.panel-top p {
+  margin: 0;
+  color: var(--muted);
+}
+
+
+/* =====================================================
+   08. Buttons and feedback
+   ===================================================== */
+.button {
+  padding: 11px 17px;
+  border-radius: 9px;
+  cursor: pointer;
+  border: 1px solid #38516f;
+  color: #d9e8fc;
+  background: #17263c;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.button:hover {
+  background: #233a56;
+}
+
+.button:disabled {
+  opacity: .5;
+  cursor: wait;
+}
+
+.error-banner {
+  border: 1px solid #8a354b;
+  color: #ffd1d9;
+  background: #3c1824;
+  padding: 11px 15px;
+  margin-bottom: 20px;
+  border-radius: 9px;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* =====================================================
+   09. Statistics cards
+   ===================================================== */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 17px;
+  margin-bottom: 20px;
+}
+
+.stat,.panel {
+  border: 1px solid var(--panel-border);
+  background: var(--panel);
+  border-radius: 13px;
+}
+
+.stat {
+  padding: 21px 23px;
+  min-height: 137px;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #8da4c1;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  margin-top: 14px;
+  line-height: 1.2;
+  letter-spacing: -.7px;
+}
+
+.stat-value.compact {
+  font-size: 22px;
+}
+
+.stat-value[data-health=ONLINE] {
+  color: var(--green);
+}
+
+.stat-value[data-health=DEGRADED],.stat-value[data-health=OFFLINE] {
+  color: var(--red);
+}
+
+.stat-sub {
+  font-size: 11px;
+  color: #7890ad;
+  margin-top: 8px;
+}
+
+.stat-sub.emergency {
+  color: var(--red);
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   10. Dashboard panels
+   ===================================================== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0,1.48fr) minmax(310px,1fr);
+  gap: 20px;
+}
+
+.panel {
+  min-width: 0;
+  padding: 25px;
+}
+
+.panel-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.panel-top h2 {
+  font-size: 17px;
+  margin: 0 0 4px;
+  letter-spacing: -.3px;
+}
+
+.panel-top p {
+  font-size: 12px;
+}
+
+.panel-tag {
+  border: 1px solid #354960;
+  color: #9cbbd8;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 6px 9px;
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   11. Intersection visualization
+   ===================================================== */
+.intersection-area {
+  display: grid;
+  place-items: center;
+  min-height: 365px;
+  overflow: hidden;
+}
+
+.intersection {
+  position: relative;
+  width: 360px;
+  height: 315px;
+  max-width: 100%;
+  border-radius: 14px;
+  background: radial-gradient(ellipse at center,#15273b,#121e30 70%);
+}
+
+.road {
+  position: absolute;
+  background: #293b4e;
+}
+
+.road-vertical {
+  width: 94px;
+  height: 100%;
+  left: calc(50% - 47px);
+  top: 0;
+  border-left: 2px solid #3c5065;
+  border-right: 2px solid #3c5065;
+}
+
+.road-horizontal {
+  height: 94px;
+  width: 100%;
+  top: calc(50% - 47px);
+  left: 0;
+  border-top: 2px solid #3c5065;
+  border-bottom: 2px solid #3c5065;
+}
+
+.road-vertical:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  border-left: 2px dashed #8997a45c;
+}
+
+.road-horizontal:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 2px dashed #8997a45c;
+}
+
+.intersection-core {
+  position: absolute;
+  z-index: 1;
+  left: calc(50% - 46px);
+  top: calc(50% - 46px);
+  width: 92px;
+  height: 92px;
+  background: #24364a;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #9bb1c8;
+}
+
+.intersection-core strong {
+  font-size: 23px;
+  color: white;
+}
+
+
+/* =====================================================
+   12. Traffic signals
+   ===================================================== */
+.signal {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-direction: column;
+}
+
+.signal.north {
+  top: 4px;
+  left: calc(50% - 29px);
+}
+
+.signal.south {
+  bottom: 4px;
+  left: calc(50% - 29px);
+}
+
+.signal.west {
+  left: 8px;
+  top: calc(50% - 46px);
+}
+
+.signal.east {
+  right: 8px;
+  top: calc(50% - 46px);
+}
+
+.direction-name,.signal-state {
+  font-size: 9px;
+  letter-spacing: .7px;
+  font-weight: 800;
+  color: #b7cbdb;
+}
+
+.signal-state {
+  color: #8ca4bc;
+}
+
+.signal-box {
+  display: flex;
+  gap: 5px;
+  background: #09111e;
+  padding: 5px;
+  border: 1px solid #486077;
+  border-radius: 8px;
+  box-shadow: 0 4px 18px #0008;
+}
+
+.lamp {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #374253;
+  display: block;
+}
+
+.signal-box[data-state=RED] .lamp.red {
+  background: var(--red);
+  box-shadow: 0 0 12px #fd697e99;
+}
+
+.signal-box[data-state=YELLOW] .lamp.yellow {
+  background: var(--yellow);
+  box-shadow: 0 0 12px #ffcd6699;
+}
+
+.signal-box[data-state=GREEN] .lamp.green {
+  background: var(--green);
+  box-shadow: 0 0 12px #27d4a199;
+}
+
+
+/* =====================================================
+   13. Signal legend
+   ===================================================== */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding-top: 3px;
+  color: #8ea4bc;
+  font-size: 11px;
+}
+
+.legend>span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend-dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-dot.red {
+  background: var(--red);
+}
+
+.legend-dot.green {
+  background: var(--green);
+}
+
+.legend-dot.yellow {
+  background: var(--yellow);
+}
+
+.legend-dot.unknown {
+  background: #718097;
+}
+
+
+/* =====================================================
+   14. Vehicle queues
+   ===================================================== */
+.queues {
+  margin-top: 37px;
+}
+
+.queue-item {
+  margin-bottom: 30px;
+}
+
+.queue-item-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.queue-item-heading strong {
+  letter-spacing: .8px;
+}
+
+.queue-item-heading span {
+  color: #a1b4ca;
+}
+
+.queue-track {
+  width: 100%;
+  background: #243449;
+  height: 9px;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.queue-fill {
+  height: 100%;
+  background: linear-gradient(90deg,#5e9cf8,#3ed5ba);
+  border-radius: 99px;
+  transition: width .35s ease;
+}
+
+.queue-footer {
+  border-top: 1px solid #273c53;
+  margin-top: 10px;
+  padding-top: 17px;
+  display: flex;
+  justify-content: space-between;
+  color: #91a8c0;
+}
+
+.queue-footer strong {
+  color: white;
+  font-size: 19px;
+}
+
+
+/* =====================================================
+   15. Activity history
+   ===================================================== */
+.activity-panel {
+  margin-top: 20px;
+}
+
+.activity-list {
+  margin-top: 25px;
+}
+
+.activity-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 0;
+  border-top: 1px solid #23364c;
+}
+
+.event-symbol {
+  height: 34px;
+  width: 34px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  border-radius: 8px;
+  background: #1a3452;
+  color: #8abeff;
+}
+
+.event-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-body strong {
+  font-size: 12px;
+  letter-spacing: .3px;
+}
+
+.event-body p {
+  margin: 4px 0 0;
+  color: #9daec0;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.event-time {
+  font-size: 11px;
+  color: #819ab3;
+  white-space: nowrap;
+}
+
+.activity-empty,.queue-placeholder {
+  color: #99abc3;
+  padding: 18px 0;
+}
+
+
+/* =====================================================
+   16. Footer
+   ===================================================== */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #7187a1;
+  font-size: 11px;
+  padding: 25px 0 0;
+}
+
+/* =====================================================
+   18. Tablet responsive
+   ===================================================== */
+@media (max-width:1100px) {
+  .stats {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    width: 202px;
+    flex-basis: 202px;
+  }
+
+  .content {
+    padding: 28px;
+  }
+
+  .topbar {
+    padding: 0 28px;
+  }
+}
+
+/* =====================================================
+   19. Mobile responsive
+   ===================================================== */
+@media (max-width:700px) {
+  .shell {
+    display: block;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    width: auto;
+    padding: 14px 18px;
+    display: block;
+  }
+
+  .brand {
+    padding: 0;
+    margin-bottom: 11px;
+  }
+
+  .nav-label,.nav-link,.sidebar-bottom {
+    display: none;
+  }
+
+  .topbar {
+    height: auto;
+    padding: 15px 19px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .top-actions {
+    gap: 12px;
+  }
+
+  .content {
+    padding: 20px 16px;
+  }
+
+  .page-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .page-heading h1 {
+    font-size: 27px;
+  }
+
+  .stats {
+    gap: 10px;
+  }
+
+  .stat {
+    padding: 17px;
+    min-height: 117px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+  }
+
+  .stat-value.compact {
+    font-size: 18px;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+
+  .intersection-area {
+    min-height: 340px;
+  }
+
+  .intersection {
+    width: 325px;
+    height: 300px;
+  }
+
+  .event-time {
+    white-space: normal;
+    text-align: right;
+    max-width: 100px;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+}
+
+
+/* =====================================================
+   17. Vehicle simulator
+   ===================================================== */
+.simulator-panel {
+  margin-top: 20px;
+}
+
+.simulator-form {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 16px;
+  margin-top: 24px;
+  align-items: end;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.form-field label {
+  color: #a5bad2;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .5px;
+}
+
+.form-field input,.form-field select {
+  width: 100%;
+  height: 43px;
+  padding: 0 12px;
+  border: 1px solid #38516f;
+  border-radius: 9px;
+  background: #0c1727;
+  color: var(--text);
+  font: inherit;
+  outline: none;
+}
+
+.form-field input:focus,.form-field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px #5eaeff24;
+}
+
+.sim-submit .button {
+  height: 43px;
+  width: 100%;
+  background: #20548a;
+  border-color: #3272ac;
+}
+
+.sim-help {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 16px 0 0;
+  line-height: 1.7;
+}
+
+.sim-result {
+  padding: 12px 15px;
+  border-radius: 9px;
+  margin-top: 16px;
+  background: #153d35;
+  color: #a2f2d5;
+  border: 1px solid #28685c;
+  overflow-wrap: anywhere;
+}
+
+.sim-result.error {
+  background: #3c1824;
+  color: #ffd1d9;
+  border-color: #8a354b;
+}
+
+/* =====================================================
+   18. Tablet responsive
+   ===================================================== */
+@media (max-width:1100px) {
+  .simulator-form {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+/* =====================================================
+   19. Mobile responsive
+   ===================================================== */
+@media (max-width:700px) {
+  .simulator-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   19. INTERACTIVE TRAFFIC CONTROLS
+========================================= */
+.controller-panel { margin-top: 20px; }
+.control-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+.control-summary > div { border: 1px solid var(--panel-border); background: #0c1727; padding: 14px; border-radius: 9px; min-width: 0; }
+.control-summary span { display: block; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.control-summary strong { font-size: 13px; overflow-wrap: anywhere; }
+.control-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.control-group { border: 1px solid var(--panel-border); padding: 19px; border-radius: 10px; min-width: 0; }
+.control-group h3 { font-size: 14px; margin: 0 0 8px; }
+.control-group p { color: var(--muted); font-size: 12px; margin: 0 0 17px; }
+.control-group .button { margin-top: 8px; }
+.button-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.button.primary { background: #20548a; border-color: #3272ac; }
+.button.danger { border-color: #8a354b; color: #ffd1d9; background: #3c1824; }
+.command-preview { border: 1px solid #354960; border-radius: 8px; padding: 12px; color: #c6dcf4; background: #0c1727; font-size: 12px; overflow-wrap: anywhere; }
+.control-label { display: block; font-size: 11px; color: #a5bad2; margin-bottom: 7px; }
+.control-select { height: 43px; width: 100%; border: 1px solid #38516f; border-radius: 9px; background: #0c1727; color: var(--text); padding: 0 12px; font: inherit; }
+.control-confirm { display: flex; gap: 10px; align-items: center; color: #c6dcf4; font-size: 12px; margin-bottom: 10px; }
+@media (max-width: 850px) { .control-actions { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .control-summary { grid-template-columns: 1fr; } }
